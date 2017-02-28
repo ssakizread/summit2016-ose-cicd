@@ -5,9 +5,9 @@ set -e
 SCRIPT_BASE_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # Login Information
-OSE_CLI_USER="admin"
-OSE_CLI_PASSWORD="admin"
-OSE_CLI_HOST="https://10.1.2.2:8443"
+OSE_CLI_USER="ose-admin"
+OSE_CLI_PASSWORD="openshift"
+OSE_CLI_HOST="https://gbosht01.fw.teknoloji.com.tr:8443"
 
 CUSTOM_BASE_IMAGE_PROJECT="custom-base-image"
 
@@ -80,7 +80,7 @@ oc login -u ${OSE_CLI_USER} -p ${OSE_CLI_PASSWORD} ${OSE_CLI_HOST} --insecure-sk
 echo
 echo "Creating new CI Project (${OSE_CI_PROJECT})..."
 echo
-oc new-project ${OSE_CI_PROJECT} >/dev/null 2>&1
+oc new-project ${OSE_CI_PROJECT} 
 
 # Create Enterprise Resources Project
 echo
@@ -314,7 +314,7 @@ oc project ${OSE_API_APP_DEV} >/dev/null 2>&1
 echo
 echo "Instantiating the application and associated dependencies in the ${OSE_API_APP_DEV} project..."
 echo
-oc process -f "$SCRIPT_BASE_DIR/support/templates/app-template.json" -v=CUSTOM_BASE_IMAGE_TAG=1.0,APPLICATION_NAME=ose-api-app,IMAGE_STREAM_NAMESPACE=${OSE_ENTERPRISE_RESOURCES},IMAGE_STREAM_NAMESPACE=${OSE_ENTERPRISE_RESOURCES} | oc -n ${OSE_API_APP_DEV} create -f- >/dev/null 2>&1
+oc process -f "$SCRIPT_BASE_DIR/support/templates/app-template.json" -v=CUSTOM_BASE_IMAGE_TAG=1.0,APPLICATION_NAME=ose-api-app,IMAGE_STREAM_NAMESPACE=${OSE_ENTERPRISE_RESOURCES} | oc -n ${OSE_API_APP_DEV} create -f- >/dev/null 2>&1
 
 
 oc project ${OSE_API_APP_UAT} >/dev/null 2>&1
